@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ẨN TIN NHẮN - by @khoi2mai</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/x-icon" href="icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="pc-wrapper">
+			<div class="pc-card">
+				<div class="window-header">
+				</div>
+				
+				<div class="window-body">
+					<div class="logo-area">
+						<img src="icon.png" class="pro-logo">
+					</div>
+
+					<h1 class="pc-brand">TIN NHẮN ẨN <span class="tag">1.1.0</span></h1>
+					<p class="pc-subtitle">Gửi tin nhắn ẩn mã hóa trên Facebook và Messenger.</p>
+					
+					<div class="info-box">
+						<div class="info-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+						</div>
+						<div class="info-text">
+							Phiên bản Web được tối ưu cho Mobile.<br>
+							Trên máy tính, vui lòng sử dụng Extension.
+						</div>
+					</div>
+
+					<a href="https://chromewebstore.google.com/" target="_blank" class="btn-primary">
+						<img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" 
+							 alt="Chrome" 
+							 width="24" height="24" 
+							 style="display: block;">
+						
+						THÊM EXTENSION
+					</a>
+				</div>
+
+				<div class="window-footer">
+					<span class="status-dot"></span> System Operational
+				</div>
+			</div>
+		</div>
+
+    <div class="mobile-wrapper">
+        <div class="mob-header">
+            <div class="user-info">
+                <div class="avatar-wrapper">
+                    <img src="pic/profile.jpg" class="avatar" alt="Avatar">
+                    <span class="status-dot"></span>
+                </div>
+                <div class="user-meta">
+                    <div class="name">XEM TIN NHẮN ẨN</div>
+                    <div class="status-desc">Hệ thống mã hóa tin nhắn tàng hình</div>
+                </div>
+            </div>
+            <div class="info-btn" id="infoBtn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                    <path d="M2,21H20V19H2M20,8H18V5H20M20,3H4V13A4,4 0 0,0 8,17H14A4,4 0 0,0 18,13V10H20A2,2 0 0,0 22,8V5C22,3.89 21.1,3 20,3Z" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="chat-area" id="chatArea"></div>
+
+        <div class="input-area">
+            <div class="guide-wrapper">
+                <div class="guide-title">HƯỚNG DẪN</div>
+                <div class="guide-step">1. Nhập text trong Messenger:</div>
+                <div class="code-block">Hello &gt;Nội dung ẩn&lt; + Enter</div>
+                <div class="guide-step">2. Nhấn <b>Enter</b> để gửi.</div>
+            </div>
+
+            <div class="toolbar">
+                <button class="paste-btn" onclick="pasteAndTranslate()">Dán nội dung</button>
+                
+                <div class="tool-btn" onclick="exportChat()" title="Lưu tin nhắn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </div>
+
+                <div class="tool-btn" onclick="importChat()" title="Mở tin nhắn cũ">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                        <polyline points="16 16 12 12 8 16"></polyline>
+                        <line x1="12" y1="12" x2="12" y2="21"></line>
+                        <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                        <polyline points="16 16 12 12 8 16"></polyline>
+                    </svg>
+                </div>
+
+                <div class="tool-btn push-right" onclick="clearChat()" title="Xóa chat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </div>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="text" id="mobInput" placeholder="Nhập tin nhắn cần ẩn...">
+                <button class="send-btn" onclick="encryptAndCopy()">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" style="margin-left:2px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="toast" class="toast-hidden">Thông báo</div>
+        <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="handleFileUpload(event)">
+
+        <div id="infoModal" class="modal">
+            <div class="modal-content cyber-card">
+                <div class="modal-header">
+                    <span class="close-btn" id="closeBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </span>
+					<div class="dev-profile">
+							<div class="dev-avatar">
+								<img src="https://graph.facebook.com/100012139806337/picture?type=large&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662" 
+								 onerror="this.src='https://ui-avatars.com/api/?name=V+K&background=FF5500&color=fff'" 
+								 alt="Avatar" class="dev-avatar-img">
+							</div>
+							<div class="dev-info">
+								<h3 class="dev-name">@khoi2mai</h3>
+								<span class="dev-role">Làm Thuê</span>
+							</div>
+						</div>
+                </div>
+                <div class="modal-body">
+                    <p class="donate-title">Buy me a coffee ☕</p>
+                    <p class="donate-desc">Ủng hộ tôi phát triển thêm nhiều tính năng thú vị nhé!</p>
+                    
+                    <div class="qr-wrapper">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example_Link" alt="QR Code" class="qr-img">
+                    </div>
+
+                    <div class="bank-info-box" onclick="copyBankInfo()">
+                        <div class="bank-details">
+                            <span class="bank-name">MB BANK</span>
+                            <span class="bank-num" id="bankNum">0123 456 789</span>
+                        </div>
+                        <div class="copy-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="facebook-btn" onclick="window.open('https://www.facebook.com/khoi2maiii/')">Facebook</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+	
+	<script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('App đã sẵn sàng chạy offline!'))
+          .catch((err) => console.log('Lỗi SW:', err));
+      }
+    </script>
+</body>
+</html>
