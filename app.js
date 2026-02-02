@@ -288,3 +288,20 @@ function copyBankInfo() {
         showToast("Đã copy số tài khoản!");
     }
 }
+
+// --- HÀM CHÈN KÝ TỰ NHANH ---
+function insertChar(char) {
+    const input = document.getElementById('mobInput');
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const text = input.value;
+    
+    // Chèn ký tự vào vị trí con trỏ
+    input.value = text.substring(0, start) + char + text.substring(end);
+    
+    // Di chuyển con trỏ ra sau ký tự vừa chèn
+    input.selectionStart = input.selectionEnd = start + 1;
+    
+    // Focus lại vào ô nhập để gõ tiếp luôn
+    input.focus();
+}
