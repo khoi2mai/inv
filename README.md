@@ -44,7 +44,7 @@ Sau khi nhấn gửi (hoặc phím Enter), hệ thống sẽ tự động sao ch
 ## 💻 Cài đặt Extension (Khuyên dùng trên PC)
 Để sử dụng thuận tiện hơn trên máy tính mà không cần mở tab web:
 1.  Truy cập [Chrome Web Store](https://chromewebstore.google.com/).
-2.  Tìm kiếm từ khóa **"Invisible"**.
+2.  Tìm kiếm từ khóa **"Tin Nhắn Ẩn"**.
 3.  Nhấn **Thêm vào Chrome**.
 
 ---
