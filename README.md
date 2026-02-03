@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🕵️‍♂️ INVISIBLE (INV) PROJECT
+# 🕵️‍♂️ TIN NHẮN ẨN (INV) PROJECT
 **Hệ thống mã hóa tin nhắn tàng hình qua ký tự trắng (Zero-Width Steganography)**
 
 [![Version](https://img.shields.io/badge/Version-1.1.0-orange.svg?style=for-the-badge)]()
