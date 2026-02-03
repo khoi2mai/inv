@@ -115,6 +115,13 @@
                     </svg>
                 </div>
 
+				<div class="info-btn" id="settingBtn">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+						<circle cx="12" cy="12" r="3"></circle>
+						<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+					</svg>
+				</div>
+
                 <div class="tool-btn push-right" onclick="clearChat()" title="Xóa chat">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                 </div>
@@ -173,6 +180,97 @@
                 </div>
             </div>
         </div>
+
+		<div id="settingModal" class="modal">
+			<div class="modal-content cyber-card">
+				<div class="modal-header">
+					<h3 style="color:#fff; margin:0">CÀI ĐẶT</h3>
+					<span class="close-btn" id="closeSettingBtn">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+					</span>
+				</div>
+				<div class="modal-body" style="align-items: stretch; text-align: left; padding-bottom: 20px;">
+					
+					<div class="setting-row">
+						<div class="setting-label">
+							<span>Đánh dấu tin nhắn ẩn</span>
+							<small>Bật chức năng icon cuối câu</small>
+						</div>
+						<label class="switch">
+							<input type="checkbox" id="toggleIcon">
+							<span class="slider"></span>
+						</label>
+					</div>
+
+					<div class="setting-row" style="border-bottom: none;">
+						<div class="setting-label">
+							<span>Icon hiển thị</span>
+							<small>Chạm vào bên phải để đổi</small>
+						</div>
+						<div class="icon-trigger" id="iconTrigger">
+							<span id="currentIconDisplay">🐧</span>
+							<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+						</div>
+					</div>
+
+					<div class="emoji-drawer" id="emojiDrawer">
+						<div class="emoji-grid">
+							<div class="emoji-item" data-char="😊">😊</div>
+							<div class="emoji-item" data-char="😳">😳</div>
+							<div class="emoji-item" data-char="😈">😈</div>
+							<div class="emoji-item" data-char="😎">😎</div>
+							<div class="emoji-item" data-char="😡">😡</div>
+							<div class="emoji-item" data-char="😨">😨</div>
+							<div class="emoji-item" data-char="🤡">🤡</div>
+							<div class="emoji-item" data-char="👍🏿">👍🏿</div>
+							<div class="emoji-item" data-char="🙇🏻">🙇🏻</div>
+							<div class="emoji-item" data-char="💖">💖</div>
+							<div class="emoji-item" data-char="💗">💗</div>
+							<div class="emoji-item" data-char="💌">💌</div>
+							<div class="emoji-item" data-char="👄">👄</div>
+							<div class="emoji-item" data-char="🎁">🎁</div>
+							<div class="emoji-item" data-char="🎤">🎤</div>
+							<div class="emoji-item" data-char="🎶">🎶</div>
+							<div class="emoji-item" data-char="🏓">🏓</div>
+							<div class="emoji-item" data-char="🥊">🥊</div>
+							<div class="emoji-item" data-char="🍤">🍤</div>
+							<div class="emoji-item" data-char="🍖">🍖</div>
+							<div class="emoji-item" data-char="🍕">🍕</div>
+							<div class="emoji-item" data-char="🍔">🍔</div>
+							<div class="emoji-item" data-char="🌮">🌮</div>
+							<div class="emoji-item" data-char="🍺">🍺</div>
+							<div class="emoji-item" data-char="🍻">🍻</div>
+							<div class="emoji-item" data-char="😺">😺</div>
+							<div class="emoji-item" data-char="🐰">🐰</div>
+							<div class="emoji-item" data-char="🙈">🙈</div>
+							<div class="emoji-item" data-char="🦍">🦍</div>
+							<div class="emoji-item" data-char="🦄">🦄</div>
+							<div class="emoji-item" data-char="🦏">🦏</div>
+							<div class="emoji-item" data-char="🐖">🐖</div>
+							<div class="emoji-item" data-char="🐧">🐧</div>
+							<div class="emoji-item" data-char="🐳">🐳</div>
+							<div class="emoji-item" data-char="🐤">🐤</div>
+							<div class="emoji-item" data-char="🐾">🐾</div>
+							<div class="emoji-item" data-char="✨">✨</div>
+							<div class="emoji-item" data-char="🔥">🔥</div>
+							<div class="emoji-item" data-char="🌧️">🌧️</div>
+							<div class="emoji-item" data-char="🌚">🌚</div>
+							<div class="emoji-item" data-char="🚔">🚔</div>
+							<div class="emoji-item" data-char="🚀">🚀</div>
+							<div class="emoji-item" data-char="🗽">🗽</div>
+							<div class="emoji-item" data-char="🔫">🔫</div>
+							<div class="emoji-item" data-char="💣">💣</div>
+							<div class="emoji-item" data-char="⚰">⚰</div>
+							<div class="emoji-item" data-char="⛏">⛏</div>
+							<div class="emoji-item" data-char="💊">💊</div>
+							<div class="emoji-item" data-char="🗝">🗝</div>
+							<div class="emoji-item" data-char="📩">📩</div
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
     </div>
     <script src="app.js"></script>
 	

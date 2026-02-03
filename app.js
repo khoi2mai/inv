@@ -1,4 +1,4 @@
-// UTILS & CONFIG
+// CONFIG
 const CONFIG = {
     PREFIX: "INV::",
     ZWS: '\u200B', ZWNJ: '\u200C', MARKER: '\u2060',
@@ -6,6 +6,75 @@ const CONFIG = {
 };
 
 let chatHistory = [];
+
+// SETTINGS MANAGER
+const AppSettings = {
+    useIcon: localStorage.getItem('useIcon') === 'true',
+    iconChar: localStorage.getItem('iconChar') || '🐧',
+
+    _persist: () => {
+        localStorage.setItem('useIcon', AppSettings.useIcon);
+        localStorage.setItem('iconChar', AppSettings.iconChar);
+    },
+
+    toggle: () => {
+        const toggleEl = document.getElementById('toggleIcon');
+        AppSettings.useIcon = toggleEl.checked;
+        AppSettings._persist();
+        UI.showToast(AppSettings.useIcon ? 'Đã BẬT icon ẩn!' : 'Đã TẮT icon ẩn!');
+    },
+    
+    // Mở/Đóng ngăn kéo chọn icon
+    toggleDrawer: () => {
+        const drawer = document.getElementById('emojiDrawer');
+        const trigger = document.getElementById('iconTrigger');
+        
+        drawer.classList.toggle('show');
+        trigger.classList.toggle('open');
+    },
+
+    selectIcon: (char, element) => {
+        AppSettings.iconChar = char;
+        AppSettings._persist();
+        
+        // 1. Cập nhật giao diện nút Trigger ngay lập tức
+        document.getElementById('currentIconDisplay').innerText = char;
+        
+        // 2. Highlight trong grid
+        document.querySelectorAll('.emoji-item').forEach(el => el.classList.remove('active'));
+        if(element) element.classList.add('active');
+        
+        // 3. Đóng ngăn kéo lại
+        AppSettings.toggleDrawer();
+
+        // 4. Auto Bật Toggle nếu đang tắt
+        const toggleEl = document.getElementById('toggleIcon');
+        if (!toggleEl.checked) {
+            toggleEl.checked = true;
+            AppSettings.useIcon = true;
+            AppSettings._persist();
+        }
+    },
+    
+    loadUI: () => {
+        const toggleEl = document.getElementById('toggleIcon');
+        if (toggleEl) toggleEl.checked = AppSettings.useIcon;
+        
+        // Hiển thị icon hiện tại lên nút Trigger
+        document.getElementById('currentIconDisplay').innerText = AppSettings.iconChar;
+        
+        // Gán sự kiện click cho từng icon trong danh sách
+        const items = document.querySelectorAll('.emoji-item');
+        items.forEach(item => {
+            if (item.getAttribute('data-char') === AppSettings.iconChar) {
+                item.classList.add('active');
+            }
+            item.onclick = function() {
+                AppSettings.selectIcon(this.getAttribute('data-char'), this);
+            }
+        });
+    }
+};
 
 // XSS
 const escapeHtml = (text) => {
@@ -48,11 +117,19 @@ const Steno = {
         return CONFIG.MARKER + binary.split('').map(b => b === '0' ? CONFIG.ZWS : CONFIG.ZWNJ).join('') + CONFIG.MARKER;
     },
     
-    encodeFromSyntax: (s) => {
+	encodeFromSyntax: (s) => {
         const open = s.indexOf('>'), close = s.lastIndexOf('<');
         if (open !== -1 && close !== -1 && open < close) {
-            const visible = s.substring(0, open).trim() || '.';
+            let visible = s.substring(0, open).trim() || '.';
             const hidden = s.substring(open + 1, close);
+            
+            // --- CẬP NHẬT LOGIC THÊM ICON TẠI ĐÂY ---
+            if (hidden && AppSettings.useIcon) {
+                // Thêm icon vào sau nội dung công khai
+                visible = visible + " " + AppSettings.iconChar;
+            }
+            // ------------------------------------------
+
             if (hidden) return visible + Steno.textToHidden(hidden);
         }
         return s;
@@ -120,8 +197,9 @@ const UI = {
         UI.chatArea.appendChild(row);
         UI.chatArea.scrollTop = UI.chatArea.scrollHeight;
         
-        if (saveHistory) {
+		if (saveHistory) {
             chatHistory.push({ content, type, time: Date.now() });
+            localStorage.setItem('chatLogs', JSON.stringify(chatHistory));
         }
     }
 };
@@ -176,7 +254,7 @@ async function pasteAndTranslate() {
     }
 }
 
-// GLOBAL FUNCTIONS & EXPORT
+// FUNCTIONS & EXPORT
 window.encryptAndCopy = encryptAndCopy;
 window.pasteAndTranslate = pasteAndTranslate;
 
@@ -222,6 +300,7 @@ window.handleFileUpload = (e) => {
 window.clearChat = () => { 
     UI.chatArea.innerHTML = ''; 
     chatHistory = []; 
+    localStorage.removeItem('chatLogs');
     UI.showToast("Đã xóa toàn bộ chat!");
 };
 
@@ -241,24 +320,51 @@ window.insertChar = (c) => {
 
 // INITIALIZE
 document.addEventListener('DOMContentLoaded', () => {
+    const savedChat = localStorage.getItem('chatLogs');
+    if (savedChat) {
+        try {
+            chatHistory = JSON.parse(savedChat);
+            chatHistory.forEach(msg => {
+                UI.renderMsg(msg.content, msg.type, false);
+            });
+        } catch (e) {
+            console.error("Lỗi tải lịch sử chat", e);
+        }
+    }
+
+	// --- BUYMECOFFEE ---
     const infoBtn = document.getElementById('infoBtn');
     const infoModal = document.getElementById('infoModal');
     const closeBtn = document.getElementById('closeBtn');
 
     if (infoBtn) infoBtn.onclick = () => infoModal.classList.add('show');
     if (closeBtn) closeBtn.onclick = () => infoModal.classList.remove('show');
-    window.onclick = (e) => { if (e.target == infoModal) infoModal.classList.remove('show'); };
 
-    [UI.pcInput, UI.mobInput].forEach(el => {
-        if (el) {
-            el.addEventListener('keypress', (e) => { 
-                if (e.key === 'Enter') {
-                    e.preventDefault(); 
-                    encryptAndCopy(); 
-                }
-            });
-        }
-    });
+    // --- SETTING INIT ---
+    const settingBtn = document.getElementById('settingBtn');
+    const settingModal = document.getElementById('settingModal');
+    const closeSettingBtn = document.getElementById('closeSettingBtn');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const iconTrigger = document.getElementById('iconTrigger'); 
+
+    AppSettings.loadUI();
+    if (settingBtn) settingBtn.onclick = () => settingModal.classList.add('show');
+    if (closeSettingBtn) closeSettingBtn.onclick = () => settingModal.classList.remove('show');
+    if (toggleIcon) toggleIcon.addEventListener('change', () => AppSettings.toggle());
+    if (iconTrigger) iconTrigger.onclick = () => AppSettings.toggleDrawer();
+    window.onclick = (e) => { 
+        if (e.target == document.getElementById('infoModal')) document.getElementById('infoModal').classList.remove('show');
+        if (e.target == settingModal) settingModal.classList.remove('show');
+    };
+    const mobInput = document.getElementById('mobInput');
+    if (mobInput) {
+        mobInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                encryptAndCopy();
+            }
+        });
+    }
 
     if (window.location.pathname.endsWith("index.html")) {
         window.history.replaceState(null, "", window.location.pathname.replace("index.html", ""));
