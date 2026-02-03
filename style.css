@@ -1,4 +1,4 @@
-/* PC INTERFACE (Giữ nguyên) */
+/* PC INTERFACE */
 :root { --bg-color: #0a0a0a; --card-bg: #1a1a1a; --accent: #FF5500; --text-main: #eeeeee; --msg-incoming: #262626; --msg-outgoing: #FF5500; }
 body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); overflow: hidden; }
 .pc-wrapper { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100%; background: radial-gradient(circle at center, #1f1f1f 0%, #0a0a0a 100%); font-family: 'Inter', -apple-system, sans-serif; }
@@ -26,7 +26,7 @@ body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color
 .window-footer { padding: 12px; border-top: 1px solid #2a2a2a; background: #181818; font-size: 11px; color: #555; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .status-dot { width: 6px; height: 6px; background: #2ecc71; border-radius: 50%; }
 
-/* MOBILE INTERFACE - UPDATED FOR STICKY HEADER */
+/* MOBILE INTERFACE */
 @media (max-width: 768px) {
     .pc-wrapper { display: none; }
     .mobile-wrapper { display: flex; flex-direction: column; height: 100vh; height: 100dvh; background: #000; overflow: hidden; }

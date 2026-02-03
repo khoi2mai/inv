@@ -1,4 +1,4 @@
-// --- 0. UTILS & CONFIG ---
+// UTILS & CONFIG
 const CONFIG = {
     PREFIX: "INV::",
     ZWS: '\u200B', ZWNJ: '\u200C', MARKER: '\u2060',
@@ -7,7 +7,7 @@ const CONFIG = {
 
 let chatHistory = [];
 
-// Hàm bảo mật XSS
+// XSS
 const escapeHtml = (text) => {
     if (!text) return text;
     return String(text).replace(/[&<>"']/g, function(m) {
@@ -15,7 +15,7 @@ const escapeHtml = (text) => {
     });
 };
 
-// Hàm Force Copy
+// COPPY
 const forceCopy = (text) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -41,7 +41,7 @@ const forceCopy = (text) => {
     }
 };
 
-// --- 1. CORE LOGIC (STENO) ---
+// CORE LOGIC
 const Steno = {
     textToHidden: (t) => {
         const binary = Array.from(t).map(c => c.charCodeAt(0).toString(2).padStart(16, '0')).join('');
@@ -49,17 +49,13 @@ const Steno = {
     },
     
     encodeFromSyntax: (s) => {
-        // [ĐÃ SỬA] Không tự động thêm cú pháp nữa.
-        // Chỉ mã hóa khi thực sự tìm thấy dấu > và <
         const open = s.indexOf('>'), close = s.lastIndexOf('<');
         if (open !== -1 && close !== -1 && open < close) {
-            const visible = s.substring(0, open).trim() || '.'; // Mặc định là dấu . nếu phần hiện trống
+            const visible = s.substring(0, open).trim() || '.';
             const hidden = s.substring(open + 1, close);
-            
-            // Nếu nội dung trong >...< có chữ thì mới mã hóa
             if (hidden) return visible + Steno.textToHidden(hidden);
         }
-        return s; // Trả về nguyên gốc nếu không có cú pháp
+        return s;
     },
 
     decode: (s) => {
@@ -84,7 +80,7 @@ const Steno = {
     }
 };
 
-// --- 2. UI CONTROLLER ---
+// UI CONTROLLER
 const UI = {
     pcInput: document.getElementById('pcInput'),
     mobInput: document.getElementById('mobInput'),
@@ -104,7 +100,6 @@ const UI = {
         const decoded = Steno.decode(content);
 
         if (decoded) {
-            // == TRƯỜNG HỢP 1: CÓ MÃ ẨN (Box đẹp) ==
             const safePublic = escapeHtml(decoded.public);
             const safeSecret = escapeHtml(decoded.secret);
             
@@ -119,7 +114,6 @@ const UI = {
                     </div>
                 </div>`;
         } else {
-            // == TRƯỜNG HỢP 2: TEXT THƯỜNG (Bubble thường) ==
             row.innerHTML = `<div class="msg-bubble">${escapeHtml(content)}</div>`;
         }
         
@@ -132,7 +126,7 @@ const UI = {
     }
 };
 
-// --- 3. ACTIONS ---
+// ACTIONS
 async function encryptAndCopy() {
     const inputEl = UI.mobInput.value ? UI.mobInput : UI.pcInput;
     const inputVal = inputEl.value.trim();
@@ -182,7 +176,7 @@ async function pasteAndTranslate() {
     }
 }
 
-// --- 4. GLOBAL FUNCTIONS & EXPORT ---
+// GLOBAL FUNCTIONS & EXPORT
 window.encryptAndCopy = encryptAndCopy;
 window.pasteAndTranslate = pasteAndTranslate;
 
@@ -245,7 +239,7 @@ window.insertChar = (c) => {
     input.focus();
 };
 
-// --- 5. INITIALIZE ---
+// INITIALIZE
 document.addEventListener('DOMContentLoaded', () => {
     const infoBtn = document.getElementById('infoBtn');
     const infoModal = document.getElementById('infoModal');
