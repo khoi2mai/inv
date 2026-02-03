@@ -62,6 +62,10 @@ input:checked + .slider:before { transform: translateX(20px); background-color: 
 .emoji-item:active { transform: scale(0.95); }
 .emoji-item.active { border-color: var(--accent); background: rgba(255, 85, 0, 0.15); box-shadow: 0 0 10px rgba(255, 85, 0, 0.1); }
 
+/* ICON (LOCKED) */
+.emoji-item.locked { opacity: 0.4; pointer-events: none; filter: grayscale(1); }
+.emoji-item.locked::after { content: "🔒"; position: absolute; font-size: 10px; bottom: 2px; right: 2px; }
+
 /* MOBILE INTERFACE */
 @media (max-width: 768px) {
     .pc-wrapper { display: none; }
@@ -135,3 +139,33 @@ input:checked + .slider:before { transform: translateX(20px); background-color: 
     .facebook-btn { background: transparent; border: 1px solid #1877F2; color: #1877F2; padding: 8px 16px; border-radius: 20px; font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
     .facebook-btn:hover { background: #1877F2; color: #fff; }
 }
+
+/* PREMIUM */
+.premium-box { background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 12px; position: relative; overflow: hidden; }
+.premium-box::before { content:""; position: absolute; top:0; left:0; width:4px; height:100%; background: var(--accent); }
+.prem-header { display: flex; justify-content: space-between; align-items: center; }
+.premium-badge { font-size: 10px; font-weight: 900; background: #333; color: #888; padding: 2px 6px; border-radius: 4px; }
+
+/* PREMIUM BADGE*/
+.premium-badge.pro { background: gold; color: #000; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+.premium-input { flex-grow: 1; background: #000; border: 1px solid #333; color: #fff; padding: 8px 12px; border-radius: 6px; outline: none; font-family: monospace; text-transform: uppercase; }
+.premium-input:focus { border-color: var(--accent); }
+.premium-btn { background: var(--accent); color: #fff; border: none; padding: 0 15px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
+
+/* PIN INPUT */
+.pin-container { display: flex; gap: 8px; justify-content: center; }
+.pin-input { width: 38px; height: 45px; background: #0a0a0a; border: 1px solid #333; border-radius: 8px; color: var(--accent); font-size: 22px; font-weight: 700; text-align: center; outline: none; transition: all 0.2s; caret-color: transparent; }
+.pin-input:focus { border-color: var(--accent); background: #1a1a1a; box-shadow: 0 0 10px rgba(255, 85, 0, 0.2); transform: translateY(-2px); }
+.pin-input::-webkit-outer-spin-button,
+.pin-input::-webkit-inner-spin-button { -webkit-appearance: none;margin: 0;}
+
+/* --- CUSTOM SCROLLBAR (Thanh cuộn đẹp) --- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+.chat-area::-webkit-scrollbar { width: 4px; }
+.locked-msg { color: #888; font-style: italic; cursor: pointer; border-bottom: 1px dashed #555; padding-bottom: 2px; transition: 0.2s; display: inline-block;}
+.locked-msg:hover { color: var(--accent); border-color: var(--accent);}
+.locked-msg::after { content: " 👆"; font-style: normal; opacity: 0.5;}
